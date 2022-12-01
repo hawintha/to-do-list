@@ -49,89 +49,69 @@
             <h2>Projects</h2>
             <span class="add-icon material-symbols-outlined">add_circle</span>
         </div>
-        <div class="category flex">
-            <span class="material-symbols-outlined">checklist</span>
-            <span>Project 1</span>
+        <div class="project category flex">
+            <div class="flex">
+                <span class="material-symbols-outlined">checklist</span>
+                <span>Project 1</span>
+            </div>
+            <span class="material-symbols-outlined">more_vert</span>
         </div>
-        <div class="category flex">
-            <span class="material-symbols-outlined">checklist</span>
-            <span>Project 2</span>
+        <div class="project category flex">
+            <div class="flex">
+                <span class="material-symbols-outlined">checklist</span>
+                <span>Project 2</span>
+            </div>
+            <span class="material-symbols-outlined">more_vert</span>
         </div>
-        <div class="category flex">
-            <span class="material-symbols-outlined">checklist</span>
-            <span>Project 3</span>
+        <div class="project category flex">
+            <div class="flex">
+                <span class="material-symbols-outlined">checklist</span>
+                <span>Project 3</span>
+            </div>
+            <span class="material-symbols-outlined">more_vert</span>
         </div>
     </nav>
     <section>
         <div class="add-div flex">
             <h1>All Tasks</h1>
-            <span class="add-icon material-symbols-outlined">add_circle</span>
+            <span class="add-task add-icon material-symbols-outlined">add_circle</span>
         </div>
-        <div class="task">
+        <form class="task-form grid hidden">
+            <h2>New Task</h2>
+            <span class="close material-symbols-outlined">close</span>
+            <div class="grid">
+                <label for="taskTitle">Title:</label>
+                <input type="text" name="taskTitle" id="taskTitle">
+            </div>
+            <div class="grid">
+                <label for="description">Description:</label>
+                <textarea name="description" id="description" cols="30" rows="5"></textarea>
+            </div>
             <div class="flex">
-                <span class="finish-icon material-symbols-outlined finished">task_alt</span>
-                <p class="finished">Add light mode</p>
-            </div>
-            <div class="task-actions">
-                <lord-icon class="edit-icon" src="https://cdn.lordicon.com/hiqmdfkt.json" trigger="loop-on-hover"
-                    colors="primary:#4FDDDE,secondary:#4FAAEF" stroke="100" style="width:32px;height:32px">
-                </lord-icon>
-                <div class="flex">
-                    <lord-icon class="star" src="https://cdn.lordicon.com/whttoese.json" trigger="morph"
-                        colors="primary:#4FDDDE,secondary:#4FAAEF" stroke="100" style="width:32px;height:32px">
-                    </lord-icon>
-                    <span class="star material-symbols-outlined hidden">star</span>
+                <div>
+                    <label for="projectName">Project:</label>
+                    <select name="projectName" id="projectName">
+                        <option value="None">None</option>
+                        <option value="Project 1">Project 1</option>
+                        <option value="Project 2">Project 2</option>
+                        <option value="Project 3">Project 3</option>
+                    </select>
                 </div>
-                <lord-icon class="trash-icon" src="https://cdn.lordicon.com/tntmaygd.json" trigger="loop-on-hover"
-                    colors="primary:#4FDDDE,secondary:#4FAAEF" stroke="100" style="width:32px;height:32px"
-                    state="hover-empty">
-                </lord-icon>
-            </div>
-        </div>
-        <div class="task">
-            <div class="flex">
-                <span class="finish-icon material-symbols-outlined">circle</span>
-                <p>Make sidebar menu collapsible</p>
-            </div>
-            <div class="task-actions">
-                <lord-icon class="edit-icon" src="https://cdn.lordicon.com/hiqmdfkt.json" trigger="loop-on-hover"
-                    colors="primary:#4FDDDE,secondary:#4FAAEF" stroke="100" style="width:32px;height:32px">
-                </lord-icon>
-                <div class="flex">
-                    <lord-icon class="star" src="https://cdn.lordicon.com/whttoese.json" trigger="morph"
-                        colors="primary:#4FDDDE,secondary:#4FAAEF" stroke="100" style="width:32px;height:32px">
-                    </lord-icon>
-                    <span class="star material-symbols-outlined hidden">star</span>
+                <div>
+                    <label for="dueDate">Due Date:</label>
+                    <input type="date" name="dueDate" id="dueDate">
                 </div>
-                <lord-icon class="trash-icon" src="https://cdn.lordicon.com/tntmaygd.json" trigger="loop-on-hover"
-                    colors="primary:#4FDDDE,secondary:#4FAAEF" stroke="100" style="width:32px;height:32px"
-                    state="hover-empty">
-                </lord-icon>
             </div>
+            <div>
+                <input type="checkbox" name="isImportant" id="isImportant">
+                <label for="isImportant">Mark as Important</label>
+            </div>
+            <button class="create-task" type="button">Create</button>
+        </form>
+        <div class="tasks">
         </div>
-        <div class="task">
-            <div class="flex">
-                <span class="finish-icon material-symbols-outlined">circle</span>
-                <p>Allow tasks to be edited</p>
-            </div>
-            <div class="task-actions">
-                <lord-icon class="edit-icon" src="https://cdn.lordicon.com/hiqmdfkt.json" trigger="loop-on-hover"
-                    colors="primary:#4FDDDE,secondary:#4FAAEF" stroke="100" style="width:32px;height:32px">
-                </lord-icon>
-                <div class="flex">
-                    <lord-icon class="star" src="https://cdn.lordicon.com/whttoese.json" trigger="morph"
-                        colors="primary:#4FDDDE,secondary:#4FAAEF" stroke="100" style="width:32px;height:32px">
-                    </lord-icon>
-                    <span class="star material-symbols-outlined hidden">star</span>
-                </div>
-                <lord-icon class="trash-icon" src="https://cdn.lordicon.com/tntmaygd.json" trigger="loop-on-hover"
-                    colors="primary:#4FDDDE,secondary:#4FAAEF" stroke="100" style="width:32px;height:32px"
-                    state="hover-empty">
-                </lord-icon>
-            </div>
-        </div>
-    </section>
 
+    </section>
 
     <footer class="flex">
         <span>© 2022 <a href="https://github.com/hawintha">Hawintha</a></span>
