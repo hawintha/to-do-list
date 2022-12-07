@@ -26,6 +26,21 @@ const ui = (() => {
     const showHide = (element) => {
         element.classList.contains('hidden') ? element.classList.remove('hidden') : element.classList.add('hidden');
     }
+    const toggleForm = (form, isEditing) => {
+        showHide(form);
+        if (isEditing) {
+            form.lastElementChild.previousElementSibling.classList.add('hidden'); //Hide create button
+            form.lastElementChild.classList.remove('hidden'); //Show confirm edit button
+            form.firstElementChild.innerText = "Edit Task";
+            form.children.item(5).classList.add('hidden'); //Hide star
+        } else {
+            document.querySelector('.task-form').reset();
+            form.lastElementChild.previousElementSibling.classList.remove('hidden'); //Show create button
+            form.lastElementChild.classList.add('hidden'); //Hide confirm edit button
+            form.firstElementChild.innerText = "New Task";
+            form.children.item(5).classList.remove('hidden'); //Show star
+        }
+    }
 
     const addTask = (toDos, i, parent) => {
         const newTask = document.createElement('div');
@@ -87,7 +102,7 @@ const ui = (() => {
     }
 
     return {
-        setTheme, getTheme, showHide, addTask, markTask
+        setTheme, getTheme, showHide, toggleForm, addTask, markTask
     };
 })();
 
