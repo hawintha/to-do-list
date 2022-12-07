@@ -156,19 +156,40 @@ h1 {
 }
 
 .task {
-    display: flex;
-    justify-content: space-between;
     margin: 0 20px 0 20px;
     padding: 0.5rem;
     border-bottom: 1px solid var(--bg-border);
+}
+
+.details {
+    margin: 5px;
+    padding: 0.5rem;
+    border: 1px solid var(--bg-border);
+    border-radius: 0.25rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+}
+
+.details div:nth-child(2) {
+    grid-area: 1 / 2 / 3 / 3;
+}
+
+.details div span:first-child {
+    font-weight: bold;
 }
 
 .task:hover {
     background-color: var(--bg-task);
 }
 
+.line {
+    display: flex;
+    justify-content: space-between;
+}
+
 .task span {
-    margin: 0 5px;
+    margin: 0 3px;
 }
 
 .task p,
@@ -181,21 +202,23 @@ h1 {
 }
 
 .task .grid {
-    grid-template-columns: repeat(3, 2rem);
+    grid-template-columns: repeat(4, 1.4rem);
     column-gap: 0.5rem;
     align-items: center;
     justify-items: center;
 }
 
-span.star {
+span.star,
+span.expand {
     background: linear-gradient(var(--state-hover), var(--state-finished));
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    font-size: 28px;
+    font-size: 25px;
     font-variation-settings: 'FILL' 1;
 }
 
+.expand.hidden,
 .star.hidden,
 .hidden {
     display: none;

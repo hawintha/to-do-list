@@ -18,9 +18,9 @@ const task = (() => {
             this.isDeleted = isDeleted;
         }
     }
-    toDos.push(new ToDo("Add light mode", "", "", "2022-10-22", false, true));
-    toDos.push(new ToDo("Make sidebar menu collapsible", "", "", "2022-10-31", false, false));
-    toDos.push(new ToDo("Allow tasks to be edited", "", "", "2022-11-30", true, false));
+    toDos.push(new ToDo("Add dark mode", "Switch toggle on upper right corner", "Project 1", "2022-10-22", false, true));
+    toDos.push(new ToDo("Make sidebar menu collapsible", "Animation", "Project 1", "2022-10-31", false, false));
+    toDos.push(new ToDo("Allow tasks to be categorized", "By date and by project", "Project 1", "2022-11-30", true, false));
     const loadTasks = () => {
         for (let i = 0; i < toDos.length; i++) { //Load tasks from array to DOM
             ui.addTask(toDos, i, document.querySelector('.tasks'));
@@ -77,13 +77,20 @@ const task = (() => {
         listeners.addTaskListeners();
         document.querySelector('.task-form').reset();
     }
+    function updateDetails() {
+        document.querySelector('.editing .detail-title span:last-child').innerText = titleInput.value;
+        document.querySelector('.editing .detail-description span:last-child').innerText = descInput.value;
+        document.querySelector('.editing .detail-project span:last-child').innerText = projectInput.value;
+        document.querySelector('.editing .detail-due-date span:last-child').innerText = dueDateInput.value;
+    }
     function editTask() {
         let editingToDo = toDos[document.querySelector('.editing').id.substring(5)];
-        document.querySelector('.editing p').innerText = titleInput.value;
+        document.querySelector('.editing p').innerText = titleInput.value; //Edit in line
         editingToDo.title = titleInput.value;
         editingToDo.description = descInput.value;
         editingToDo.project = projectInput.value;
         editingToDo.dueDate = dueDateInput.value;
+        updateDetails();
     }
     return {
         loadTasks, toggleFinish, prepareEdit, starTask, deleteTask, createNewTask, editTask
