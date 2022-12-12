@@ -5,23 +5,27 @@ function listen() {
     const themeIcon = document.querySelector('.theme-icon');
     themeIcon.addEventListener('click', () => themeIcon.checked ? ui.setTheme('dark') : ui.setTheme('light'));
 
+    const menuIcon = document.querySelector('.menu-icon');
+    menuIcon.addEventListener('click', () => {
+        ui.toggleSidebar();
+    })
     const addTaskBtn = document.querySelector('.add-task'); //Toggle task creator form
     addTaskBtn.addEventListener('click', () => {
-        ui.toggleForm(document.querySelector(".task-form"), false);
+        ui.toggleForm(document.querySelector('.task-form'), false);
     })
-    const closeIcon = document.querySelector('.task-form .close'); //Close form
-    closeIcon.addEventListener('click', (e) => {
-        ui.showHide(e.target.parentElement);
+    const closeIcon = document.querySelector('.cancel');
+    closeIcon.addEventListener('click', () => {
+        ui.closeForm();
     })
     const createTaskBtn = document.querySelector('.create-task');
-    createTaskBtn.addEventListener('click', (e) => {
-        ui.showHide(e.target.parentElement); // Close form
-        task.createNewTask(); //Add new task to array
+    createTaskBtn.addEventListener('click', () => {
+        ui.closeForm();
+        task.createNewTask();
     })
     const confirmEditBtn = document.querySelector('.confirm-edit');
-    confirmEditBtn.addEventListener('click', (e) => {
-        ui.showHide(e.target.parentElement); // Close form
-        task.editTask(); //Add new task to array
+    confirmEditBtn.addEventListener('click', () => {
+        ui.closeForm();
+        task.editTask();
     })
 }
 
@@ -33,14 +37,14 @@ const listeners = (() => {
                     if (icon.classList.contains('finish-icon')) {
                         task.toggleFinish(e.target, e.target.parentElement.parentElement.parentElement.id); //Toggle finished/unfinished icons
                     } else if (icon.classList.contains('expand')) {
-                        ui.showHide(e.target); //Hide icon
-                        e.target.innerText === "expand_more" ? ui.showHide(icon.nextElementSibling) : ui.showHide(icon.previousElementSibling); //Show opposite icon
-                        ui.showHide(e.target.parentElement.parentElement.parentElement.nextElementSibling); //Toggle details
+                        e.target.classList.toggle('hidden'); //Hide icon
+                        e.target.innerText === "expand_more" ? icon.nextElementSibling.classList.toggle('hidden') : icon.previousElementSibling.classList.toggle('hidden'); //Show opposite icon
+                        e.target.parentElement.parentElement.parentElement.nextElementSibling.classList.toggle('hidden'); //Toggle details
                     } else if (icon.classList.contains('edit-icon')) {
                         ui.toggleForm(document.querySelector(".task-form"), true);
                         task.prepareEdit(e.target.parentElement.parentElement.parentElement);
                     } else if (icon.classList.contains('star')) {
-                        ui.showHide(e.target);
+                        e.target.classList.toggle('hidden');
                         task.starTask(e.target, e.target.parentElement.parentElement.parentElement.parentElement.id); //Toggle filled/unfilled star
                     } else if (icon.classList.contains('trash-icon')) {
                         task.deleteTask(e.target.parentElement.parentElement.parentElement);

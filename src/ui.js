@@ -23,23 +23,28 @@ const ui = (() => {
         setTheme(localStorage.getItem('theme'));
     };
 
-    const showHide = (element) => {
-        element.classList.contains('hidden') ? element.classList.remove('hidden') : element.classList.add('hidden');
+    const toggleSidebar = () => {
+        document.querySelector("body").classList.toggle("collapsed");
     }
     const toggleForm = (form, isEditing) => {
-        showHide(form);
+        document.querySelector('.taskView').classList.add('showingForm');
+        document.querySelector('.task-form').classList.add('visible');
         if (isEditing) {
-            form.lastElementChild.previousElementSibling.classList.add('hidden'); //Hide create button
-            form.lastElementChild.classList.remove('hidden'); //Show confirm edit button
+            document.querySelector('.create-task').classList.add('hidden'); //Hide create button
+            document.querySelector('.confirm-edit').classList.remove('hidden'); //Show confirm edit button
             form.firstElementChild.innerText = "Edit Task";
-            form.children.item(5).classList.add('hidden'); //Hide star
+            document.querySelector('.isImportant').classList.add('hidden'); //Hide star
         } else {
             document.querySelector('.task-form').reset();
-            form.lastElementChild.previousElementSibling.classList.remove('hidden'); //Show create button
-            form.lastElementChild.classList.add('hidden'); //Hide confirm edit button
+            document.querySelector('.create-task').classList.remove('hidden'); //Show create button
+            document.querySelector('.confirm-edit').classList.add('hidden'); //Hide confirm edit button
             form.firstElementChild.innerText = "New Task";
-            form.children.item(5).classList.remove('hidden'); //Show star
+            document.querySelector('.isImportant').classList.remove('hidden'); //Show star
         }
+    }
+    const closeForm = () => {
+        document.querySelector('.taskView').classList.remove('showingForm');
+        document.querySelector('.task-form').classList.remove('visible');
     }
 
     const addTask = (toDos, i, parent) => {
@@ -169,7 +174,7 @@ const ui = (() => {
     }
 
     return {
-        setTheme, getTheme, showHide, toggleForm, addTask, markTask
+        setTheme, getTheme, toggleSidebar, toggleForm, closeForm, addTask, markTask
     };
 })();
 

@@ -54,10 +54,10 @@ const task = (() => {
     }
     function starTask(star, taskID) {
         if (star.tagName === "LORD-ICON") { //If unfilled star
-            ui.showHide(star.nextElementSibling);
+            star.nextElementSibling.classList.toggle('hidden');
             toDos[taskID.substring(5)].isImportant = true;
         } else { //If filled star
-            ui.showHide(star.previousElementSibling);
+            star.previousElementSibling.classList.toggle('hidden');
             toDos[taskID.substring(5)].isImportant = false;
         }
     }
