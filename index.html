@@ -13,7 +13,7 @@
 
 <body>
     <header class="flex">
-        <span class="material-symbols-outlined">menu</span>
+        <span class="menu-icon material-symbols-outlined">menu</span>
         <div class="logo flex">
             <span class="material-symbols-outlined">done_all</span>
             <span>To-Do List</span>
@@ -72,20 +72,24 @@
         </div>
     </nav>
     <section>
-        <div class="add-div flex">
-            <h1>All Tasks</h1>
-            <span class="add-task add-icon material-symbols-outlined">add_circle</span>
+        <div class="taskView">
+            <div class="add-div flex">
+                <h1>All Tasks</h1>
+                <span class="add-task add-icon material-symbols-outlined">add_circle</span>
+            </div>
+            <div class="tasks">
+            </div>
         </div>
-        <form class="task-form grid hidden">
+        <form class="task-form grid">
             <h2>New Task</h2>
-            <span class="close material-symbols-outlined">close</span>
             <div class="grid">
                 <label for="taskTitle">Title:</label>
-                <input type="text" name="taskTitle" id="taskTitle">
+                <input type="text" name="taskTitle" id="taskTitle" placeholder="Enter the task title">
             </div>
             <div class="grid">
                 <label for="description">Description:</label>
-                <textarea name="description" id="description" cols="30" rows="5"></textarea>
+                <textarea name="description" id="description" cols="30" rows="5"
+                    placeholder="Enter the task description"></textarea>
             </div>
             <div class="flex">
                 <div>
@@ -102,16 +106,16 @@
                     <input type="date" name="dueDate" id="dueDate">
                 </div>
             </div>
-            <div>
+            <div class="flex isImportant">
                 <input type="checkbox" name="isImportant" id="isImportant">
                 <label for="isImportant">Mark as Important</label>
             </div>
-            <button class="create-task" type="button">Create</button>
-            <button class="confirm-edit hidden" type="button">Confirm</button>
+            <div class="flex btns">
+                <button class="cancel" type="button">Cancel</button>
+                <button class="create-task" type="button">Create</button>
+                <button class="confirm-edit hidden" type="button">Confirm</button>
+            </div>
         </form>
-        <div class="tasks">
-        </div>
-
     </section>
 
     <footer class="flex">

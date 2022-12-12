@@ -13,6 +13,8 @@
     --color-white: #FFFFFF;
 
     --bg-border: #DAEEFA;
+    --bg-btn: linear-gradient(90deg, #4FDDDE 0%, #4FAAEF 100%);
+    --bg-input: #3A9A9A;
     --bg-nav: #EEEEEE;
     --bg-outer: linear-gradient(90deg, #4FDDDE 0%, #4FAAEF 100%);
     --bg-section: #FFFFFF;
@@ -21,28 +23,37 @@
     --state-finished: #4FDDDE;
     --state-hover: #4FAAEF;
     --state-struck: #9F9FA0;
+    --text-tab: #5D5D65;
     --text-task: #101010;
     --text-heading: #45C5C5;
 }
 
 :root.dark {
     --bg-border: #3A3A40;
-    --bg-nav: #2F2F2F;
+    --bg-btn: linear-gradient(90deg, #000F20 0%, #052050 100%);
+    --bg-input: #202020;
+    --bg-nav: #2A2A2F;
     --bg-outer: #101010;
     --bg-section: #202020;
     --bg-task: #2F2F2F;
     --state-active: #3A3A40;
-    --state-finished: #0540A0;
+    --state-finished: #4FAAEF;
     --state-hover: #3565B0;
-    --state-struck: #3565B0;
+    --state-struck: #4FAAEF;
+    --text-tab: #CACACA;
     --text-task: #9F9FA0;
-    --text-heading: #9F9FA0;
+    --text-heading: #F0F0F0;
 }
 
 body {
     height: 100vh;
     display: grid;
     grid: 3.5rem 1fr 2rem / 15rem 1fr;
+    transition: 0.5s;
+}
+
+.collapsed {
+    grid: 3.5rem 1fr 2rem / 0 1fr;
 }
 
 .grid {
@@ -61,6 +72,13 @@ header {
     color: var(--color-white);
     padding: 0.5rem;
 }
+
+.menu-icon:hover,
+.add-icon:hover {
+    transform: scale(1.1);
+    color: var(--state-hover);
+}
+
 
 .flex {
     display: flex;
@@ -117,7 +135,7 @@ nav {
 
 .category {
     border-radius: 5px;
-    color: var(--color-gray-dark);
+    color: var(--text-tab);
     cursor: pointer;
     margin: 10px;
 }
@@ -148,6 +166,18 @@ nav {
 section {
     background-color: var(--bg-section);
     padding: 1rem;
+    overflow: hidden;
+    height: 100%;
+}
+
+.taskView {
+    height: 100%;
+    transition: 0.3s;
+    overflow: hidden;
+}
+
+.showingForm {
+    height: 0;
 }
 
 h1 {
@@ -156,12 +186,14 @@ h1 {
 }
 
 .task {
+    font-family: system-ui;
     margin: 0 20px 0 20px;
     padding: 0.5rem;
     border-bottom: 1px solid var(--bg-border);
 }
 
 .details {
+    color: var(--text-task);
     margin: 5px;
     padding: 0.5rem;
     border: 1px solid var(--bg-border);
@@ -177,6 +209,7 @@ h1 {
 
 .details div span:first-child {
     font-weight: bold;
+    color: var(--text-heading);
 }
 
 .task:hover {
@@ -210,7 +243,7 @@ h1 {
 
 span.star,
 span.expand {
-    background: linear-gradient(var(--state-hover), var(--state-finished));
+    background: linear-gradient(#4FDDDE, #4FAAEF);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -262,34 +295,108 @@ p.finished::after {
 form {
     grid-template-rows: 2rem;
     row-gap: 1rem;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 25rem;
+    margin: 2rem;
     padding: 2rem;
-    box-shadow: 0 0 40px var(--color-gray-dark);
-    border-radius: 5px;
-    background-color: var(--bg-task);
-    z-index: 1;
+    min-width: 35rem;
+    height: 0;
+    color: var(--text-heading);
+    background: var(--bg-nav);
+    border-radius: 1rem;
+}
+
+.visible {
+    height: 35rem;
+}
+
+h2 {
+    font-size: 2.3rem;
+    text-align: center;
 }
 
 form .flex {
     justify-content: space-between;
 }
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+form label {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+form input,
+form textarea,
+form select {
+    font-family: system-ui;
+    width: 100%;
+    margin: 5px 0 5px 0;
+    padding: 0.5rem;
+    color: var(--text-tab);
+    border: 1px solid var(--bg-input);
+    border-radius: 3px;
+    outline: none;
+    background-color: var(--bg-task);
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+    border-color: var(--state-active);
 }
 
 textarea {
     resize: vertical;
 }
 
+.isImportant {
+    align-items: center;
+    width: fit-content;
+}
+
+.isImportant input {
+    flex-shrink: 25;
+}
+
+.isImportant label {
+    width: 30rem;
+}
+
+form .btns {
+    justify-content: flex-end;
+}
+
 form button {
     width: fit-content;
+    border: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    padding: 12px 20px;
+    background-size: 150% 150%;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.cancel {
+    background-color: var(--bg-section);
+    color: var(--color-gray-dark);
+    border: 1px solid var(--bg-nav);
+    margin-right: 1rem;
+}
+
+.cancel:hover {
+    border: 1px solid var(--state-hover);
+    color: var(--state-hover);
+}
+
+.create-task,
+.confirm-edit {
+    color: var(--color-white);
+    background-image: var(--bg-btn);
+    padding: 13px 21px;
+}
+
+.create-task:hover,
+.confirm-edit:hover {
+    background-position: right center;
 }
 
 footer {
