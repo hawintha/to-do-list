@@ -14,11 +14,11 @@
 
     --bg-border: #DAEEFA;
     --bg-btn: linear-gradient(90deg, #4FDDDE 0%, #4FAAEF 100%);
-    --bg-input: #3A9A9A;
     --bg-nav: #EEEEEE;
     --bg-outer: linear-gradient(90deg, #4FDDDE 0%, #4FAAEF 100%);
     --bg-section: #FFFFFF;
     --bg-task: #FAFAFA;
+    --box-shadow: rgb(205 220 230) 2px 2px 5px 0px inset, rgba(255, 255, 255, 0.5) -3px -2px 5px 1px inset;
     --state-active: #4FDDDE;
     --state-finished: #4FDDDE;
     --state-hover: #4FAAEF;
@@ -31,11 +31,11 @@
 :root.dark {
     --bg-border: #3A3A40;
     --bg-btn: linear-gradient(90deg, #000F20 0%, #052050 100%);
-    --bg-input: #202020;
     --bg-nav: #2A2A2F;
     --bg-outer: #101010;
     --bg-section: #202020;
     --bg-task: #2F2F2F;
+    --box-shadow: rgb(55 60 65) 0px 0px 4px 0px inset, rgb(25 25 25 / 50%) 2px 3px 1px 1px inset;
     --state-active: #3A3A40;
     --state-finished: #4FAAEF;
     --state-hover: #3565B0;
@@ -142,7 +142,7 @@ nav {
 
 .category:hover {
     color: var(--state-hover);
-    outline: 2px solid var(--state-active);
+    box-shadow: var(--box-shadow);
 }
 
 .category.active {
@@ -159,10 +159,6 @@ nav {
     justify-content: space-between;
 }
 
-.project {
-    justify-content: space-between;
-}
-
 section {
     background-color: var(--bg-section);
     padding: 1rem;
@@ -176,8 +172,11 @@ section {
     overflow: hidden;
 }
 
-.showingForm {
+.minimized {
     height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 h1 {
@@ -251,8 +250,13 @@ span.expand {
     font-variation-settings: 'FILL' 1;
 }
 
+span.expand:hover {
+    transform: scale(1.2);
+}
+
 .expand.hidden,
 .star.hidden,
+.add-project.hidden,
 .hidden {
     display: none;
 }
@@ -306,6 +310,7 @@ form {
 
 .visible {
     height: 35rem;
+    padding: 2rem;
 }
 
 h2 {
@@ -331,7 +336,7 @@ form select {
     margin: 5px 0 5px 0;
     padding: 0.5rem;
     color: var(--text-tab);
-    border: 1px solid var(--bg-input);
+    border: none;
     border-radius: 3px;
     outline: none;
     background-color: var(--bg-task);
@@ -340,11 +345,11 @@ form select {
 form input:focus,
 form textarea:focus,
 form select:focus {
-    border-color: var(--state-active);
+    border: 1px solid var(--state-active);
 }
 
 textarea {
-    resize: vertical;
+    resize: none;
 }
 
 .isImportant {
@@ -365,6 +370,7 @@ form .btns {
 }
 
 form button {
+    cursor: pointer;
     width: fit-content;
     border: none;
     letter-spacing: 2px;
@@ -375,14 +381,14 @@ form button {
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.cancel {
+button.cancel {
     background-color: var(--bg-section);
     color: var(--color-gray-dark);
     border: 1px solid var(--bg-nav);
     margin-right: 1rem;
 }
 
-.cancel:hover {
+button.cancel:hover {
     border: 1px solid var(--state-hover);
     color: var(--state-hover);
 }
@@ -397,6 +403,39 @@ form button {
 .create-task:hover,
 .confirm-edit:hover {
     background-position: right center;
+}
+
+.project-form {
+    grid-template-rows: 2rem 4rem 4rem;
+    row-gap: 0;
+}
+
+.project-form span {
+    position: relative;
+    text-align: right;
+}
+
+#newProject {
+    margin-left: 10px;
+}
+
+form .add-icon {
+    margin-left: 10px;
+}
+
+.save-project {
+    margin-left: 9px;
+    padding: 9px 12px;
+}
+
+.projects {
+    overflow-y: auto;
+}
+
+.editing {
+    /* border: 1px solid var(--state-active);
+    color: pink; */
+    box-shadow: rgb(204 219 232) 3px 3px 6px 0px inset, rgb(255 255 255 / 50%) -3px -3px 6px 1px inset;
 }
 
 footer {

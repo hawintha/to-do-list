@@ -21,54 +21,39 @@
         <input class="theme-icon" type="checkbox">
     </header>
     <nav>
-        <div class="category flex active">
-            <span class="material-symbols-outlined">inbox</span>
-            <span>All</span>
-        </div>
-        <div class="category flex">
-            <span class="material-symbols-outlined">today</span>
-            <span>Today</span>
-        </div>
-        <div class="category flex">
-            <span class="material-symbols-outlined">date_range</span>
-            <span>This Week</span>
-        </div>
-        <div class="category flex">
-            <span class="material-symbols-outlined">calendar_month</span>
-            <span>This Month</span>
-        </div>
-        <div class="category flex">
-            <span class="material-symbols-outlined">star</span>
-            <span>Important</span>
-        </div>
-        <div class="category flex">
-            <span class="material-symbols-outlined">task_alt</span>
-            <span>Completed</span>
+        <div>
+            <div class="category flex active">
+                <span class="material-symbols-outlined">inbox</span>
+                <span>All</span>
+            </div>
+            <div class="category flex">
+                <span class="material-symbols-outlined">today</span>
+                <span>Today</span>
+            </div>
+            <div class="category flex">
+                <span class="material-symbols-outlined">date_range</span>
+                <span>This Week</span>
+            </div>
+            <div class="category flex">
+                <span class="material-symbols-outlined">calendar_month</span>
+                <span>This Month</span>
+            </div>
+            <div class="category flex">
+                <span class="material-symbols-outlined">star</span>
+                <span>Important</span>
+            </div>
+            <div class="category flex">
+                <span class="material-symbols-outlined">task_alt</span>
+                <span>Completed</span>
+            </div>
         </div>
         <div class="add-div flex">
             <h2>Projects</h2>
-            <span class="add-icon material-symbols-outlined">add_circle</span>
+            <lord-icon class="project-settings" src="https://cdn.lordicon.com/hwuyodym.json" trigger="morph"
+                colors="primary:#4FDDDE" style="width:25px; height:25px" stroke="100">
+            </lord-icon>
         </div>
-        <div class="project category flex">
-            <div class="flex">
-                <span class="material-symbols-outlined">checklist</span>
-                <span>Project 1</span>
-            </div>
-            <span class="material-symbols-outlined">more_vert</span>
-        </div>
-        <div class="project category flex">
-            <div class="flex">
-                <span class="material-symbols-outlined">checklist</span>
-                <span>Project 2</span>
-            </div>
-            <span class="material-symbols-outlined">more_vert</span>
-        </div>
-        <div class="project category flex">
-            <div class="flex">
-                <span class="material-symbols-outlined">checklist</span>
-                <span>Project 3</span>
-            </div>
-            <span class="material-symbols-outlined">more_vert</span>
+        <div class="nav-projects">
         </div>
     </nav>
     <section>
@@ -80,7 +65,7 @@
             <div class="tasks">
             </div>
         </div>
-        <form class="task-form grid">
+        <form class="task-form grid minimized">
             <h2>New Task</h2>
             <div class="grid">
                 <label for="taskTitle">Title:</label>
@@ -115,6 +100,16 @@
                 <button class="create-task" type="button">Create</button>
                 <button class="confirm-edit hidden" type="button">Confirm</button>
             </div>
+        </form>
+        <form class="project-form grid minimized">
+            <span class="cancel material-symbols-outlined">close</span>
+            <h2>Manage Projects</h2>
+            <div class="flex">
+                <input type="text" name="newProject" id="newProject" placeholder="New Project">
+                <label for="newProject" class="add-project add-icon material-symbols-outlined">add</label>
+                <button class="confirm-edit save-project hidden" type="button">Save</button>
+            </div>
+            <div class="projects"></div>
         </form>
     </section>
 

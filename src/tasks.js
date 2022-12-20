@@ -6,8 +6,8 @@ const task = (() => {
     const projectInput = document.querySelector('#projectName');
     const dueDateInput = document.querySelector('#dueDate');
     const isImportant = document.querySelector('#isImportant');
-    let toDos = [];
-    class ToDo {
+    let tasks = [];
+    class Task {
         constructor(title, description, project, dueDate, isImportant, isFinished, isDeleted) {
             this.title = title;
             this.description = description;
@@ -18,64 +18,58 @@ const task = (() => {
             this.isDeleted = isDeleted;
         }
     }
-    toDos.push(new ToDo("Add dark mode", "Switch toggle on upper right corner", "Project 1", "2022-10-22", false, true));
-    toDos.push(new ToDo("Make sidebar menu collapsible", "Animation", "Project 1", "2022-10-31", false, false));
-    toDos.push(new ToDo("Allow tasks to be categorized", "By date and by project", "Project 1", "2022-11-30", true, false));
-    const loadTasks = () => {
-        for (let i = 0; i < toDos.length; i++) { //Load tasks from array to DOM
-            ui.addTask(toDos, i, document.querySelector('.tasks'));
-            ui.markTask(toDos, i);
+    tasks.push(new Task("Add dark mode", "Switch toggle on upper right corner", "Project 1", "2022-10-22", false, true));
+    tasks.push(new Task("Allow tasks to be categorized into projects", "", "Project 1", "2022-10-31", false, false));
+    tasks.push(new Task("Allow tasks to be categorized by date", "", "Project 1", "2022-11-30", true, false));
+    const load = () => {
+        for (let i = 0; i < tasks.length; i++) { //Load tasks from array to DOM
+            ui.addTask(tasks, i, document.querySelector('.tasks'));
+            ui.markTask(tasks, i);
         }
         listeners.addTaskListeners();
     }
 
-    function toggleFinish(circle, taskID) {
+    const toggleFinish = (circle, taskID) => {
         if (circle.innerText === "circle") { //Checks
             circle.innerText = "task_alt";
             circle.classList.add("finished");
             circle.nextElementSibling.classList.add("finished");
-            if (taskID) toDos[taskID.substring(5)].isFinished = true;
+            if (taskID) tasks[taskID.substring(5)].isFinished = true;
         } else { //Unchecks
             circle.innerText = "circle";
             circle.classList.remove("finished");
             circle.nextElementSibling.classList.remove("finished");
-            if (taskID) toDos[taskID.substring(5)].isFinished = false;
+            if (taskID) tasks[taskID.substring(5)].isFinished = false;
         }
     }
-    function prepareEdit(task) { //Fill edit form with task's values
-        titleInput.value = toDos[task.id.substring(5)].title;
-        descInput.value = toDos[task.id.substring(5)].description;
-        projectInput.value = toDos[task.id.substring(5)].project;
-        dueDateInput.value = toDos[task.id.substring(5)].dueDate;
-        if (document.querySelector('.editing')) { //Prevent multiple tasks from having the editing status
-            document.querySelector('.editing').classList.remove("editing");
-        }
-        task.classList.add("editing");
-    }
-    function starTask(star, taskID) {
+    const toggleStar = (star, taskID) => {
         if (star.tagName === "LORD-ICON") { //If unfilled star
             star.nextElementSibling.classList.toggle('hidden');
-            toDos[taskID.substring(5)].isImportant = true;
+            tasks[taskID.substring(5)].isImportant = true;
         } else { //If filled star
             star.previousElementSibling.classList.toggle('hidden');
-            toDos[taskID.substring(5)].isImportant = false;
+            tasks[taskID.substring(5)].isImportant = false;
         }
     }
-    function deleteTask(task) {
-        toDos[task.id.substring(5)].isDeleted = true; //Mark task as deleted in array
-        task.remove()// Remove task from UI
-    }
 
-    function addToDo(title, description, project, dueDate, isImportant) { //Adds task to array
-        let newToDo = new ToDo(title, description, project, dueDate, isImportant);
-        toDos.push(newToDo);
-    }
-    function createNewTask() {
-        addToDo(titleInput.value, descInput.value, projectInput.value, dueDateInput.value, isImportant.checked);
-        ui.addTask(toDos, toDos.length - 1, document.querySelector('.tasks')); //Adds task to DOM
-        ui.markTask(toDos, toDos.length - 1); //Adds appropriate CSS
+    const create = () => {
+        tasks.push(new Task(titleInput.value, descInput.value, projectInput.value, dueDateInput.value, isImportant.checked)); //Add to array
+        ui.addTask(tasks, tasks.length - 1, document.querySelector('.tasks')); //Add to DOM
+        ui.markTask(tasks, tasks.length - 1); //Add appropriate CSS
         listeners.addTaskListeners();
         document.querySelector('.task-form').reset();
+    }
+    const remove = (task) => {
+        tasks[task.id.substring(5)].isDeleted = true; //Update array
+        task.remove()// Remove from UI
+    }
+    const prepareEdit = (task) => { //Fill edit form with task's values
+        titleInput.value = tasks[task.id.substring(5)].title;
+        descInput.value = tasks[task.id.substring(5)].description;
+        projectInput.value = tasks[task.id.substring(5)].project;
+        dueDateInput.value = tasks[task.id.substring(5)].dueDate;
+        if (document.querySelector('.editing')) document.querySelector('.editing').classList.remove("editing");
+        task.classList.add("editing");
     }
     function updateDetails() {
         document.querySelector('.editing .detail-title span:last-child').innerText = titleInput.value;
@@ -83,18 +77,16 @@ const task = (() => {
         document.querySelector('.editing .detail-project span:last-child').innerText = projectInput.value;
         document.querySelector('.editing .detail-due-date span:last-child').innerText = dueDateInput.value;
     }
-    function editTask() {
-        let editingToDo = toDos[document.querySelector('.editing').id.substring(5)];
+    const edit = () => {
+        let editingTask = tasks[document.querySelector('.editing').id.substring(5)];
         document.querySelector('.editing p').innerText = titleInput.value; //Edit in line
-        editingToDo.title = titleInput.value;
-        editingToDo.description = descInput.value;
-        editingToDo.project = projectInput.value;
-        editingToDo.dueDate = dueDateInput.value;
+        editingTask.title = titleInput.value;
+        editingTask.description = descInput.value;
+        editingTask.project = projectInput.value;
+        editingTask.dueDate = dueDateInput.value;
         updateDetails();
     }
-    return {
-        loadTasks, toggleFinish, prepareEdit, starTask, deleteTask, createNewTask, editTask
-    };
+    return { load, toggleFinish, toggleStar, create, remove, prepareEdit, edit };
 })();
 
 export { task };
