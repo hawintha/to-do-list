@@ -1,5 +1,6 @@
 import { listeners } from './listeners.js';
 import { ui } from './ui.js';
+import { task } from './tasks.js';
 const project = (() => {
     const titleInput = document.querySelector('#newProject');
     let projects = [];
@@ -13,26 +14,33 @@ const project = (() => {
     projects.push(new Project("Project 2", false));
     projects.push(new Project("Project 3", false));
     const load = () => {
-        document.querySelector('.nav-projects').replaceChildren();
         document.querySelector('.projects').replaceChildren();
+        document.querySelector('#projectName').replaceChildren();
         for (let i = 0; i < projects.length; i++) { //Load projects from array to DOM
-            ui.addProject(projects, i, document.querySelector('.nav-projects')); //For nav
-            ui.addProject(projects, i, document.querySelector('.projects'), true); //For form
+            if (!projects[i].isDeleted) {
+                ui.addProject(projects, i, document.querySelector('.nav-projects')); //For nav
+                ui.addProject(projects, i, document.querySelector('.projects'), true); //For form
+            }
         }
         listeners.addProjectListeners(); //Edit & delete buttons
     }
 
     const create = () => {
         projects.push(new Project(titleInput.value, false)); //To array
-        ui.addProject(projects, projects.length - 1, document.querySelector('.projects'), true); //To form
+        ui.addProject(projects, projects.length - 1, document.querySelector('.projects'), true); //To both forms
         ui.addProject(projects, projects.length - 1, document.querySelector('.nav-projects'), false); //To nav
         titleInput.value = ""; //Clear input
         listeners.addProjectListeners();
     }
     const remove = (project) => {
-        projects[project.dataset.index].isDeleted = true; //Update array
-        project.remove()// Remove from form
-        document.querySelector(`[data-index="${project.dataset.index}"`).remove()// Remove from nav
+        let index = project.dataset.index;
+        projects[index].isDeleted = true; //Update array
+        project.remove()// Remove from project manager form
+        document.querySelector(`[value="${projects[index].title}"]`).remove(); // Remove from selector in task creator form
+        if (document.querySelector('.active').dataset.index === index) { //If active tab is the same project as the project being deleted, switch to All Tab
+            ui.switchCategories(document.querySelector('.all'));
+        }
+        document.querySelector(`[data-index="${index}"]`).remove()// Remove from nav
     }
     const prepareEdit = (project) => {
         titleInput.value = projects[project.dataset.index].title;
@@ -43,11 +51,14 @@ const project = (() => {
         project.classList.add("editing");
     }
     const edit = () => {
-        projects[document.querySelector('.editing').dataset.index].title = titleInput.value; //Update array
+        let index = document.querySelector('.editing').dataset.index;
+        task.updateProject(projects[index].title, titleInput.value); //Update tasks with updated project name
+        document.querySelector('.editing').firstElementChild.lastElementChild.innerText = titleInput.value; // Update project name in project manager form
+        document.querySelector(`[data-index="${index}"]`).firstElementChild.lastElementChild.innerText = titleInput.value; // Update project name in nav
+        projects[index].title = titleInput.value; //Update array
         titleInput.value = "";
         document.querySelector(".add-project").classList.remove("hidden");
         document.querySelector(".save-project").classList.add("hidden");
-        load();
     }
     return { load, create, remove, prepareEdit, edit }
 })();

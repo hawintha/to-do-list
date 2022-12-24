@@ -66,6 +66,9 @@ const listeners = (() => {
                     } else if (btn.classList.contains('cancel')) {
                         ui.closeForm();
                     }
+                    else if (btn.classList.contains('nav-category')) { //Not categories in form
+                        ui.switchCategories(e.currentTarget);
+                    }
                 })
             }
         }
@@ -78,8 +81,9 @@ const listeners = (() => {
     const addProjectListeners = () => {
         findBtn(document.querySelectorAll('.project-edit'));
         findBtn(document.querySelectorAll('.project-trash'));
+        findBtn(document.querySelectorAll('.nav-category')); //Tab switch logic
     }
-    return { addTaskListeners, addProjectListeners }
+    return { findBtn, addTaskListeners, addProjectListeners }
 })();
 
 export { listen, listeners };

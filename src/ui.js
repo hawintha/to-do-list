@@ -1,3 +1,4 @@
+import { project } from './projects.js';
 import { task } from './tasks.js';
 const ui = (() => {
     const setIconTheme = (colors) => {
@@ -26,6 +27,11 @@ const ui = (() => {
     const toggleSidebar = () => {
         document.querySelector("body").classList.toggle("collapsed");
     }
+    const switchCategories = (category) => {
+        document.querySelector('.active').classList.remove("active");
+        category.classList.add("active"); //Highlight clicked tab
+        task.filter(category);
+    }
 
     const taskForm = document.querySelector('.task-form');
     const projectForm = document.querySelector('.project-form');
@@ -52,6 +58,9 @@ const ui = (() => {
                 document.querySelector('.isImportant').classList.add('hidden'); //Hide star
             } else if (type === "task-creator") {
                 taskForm.reset();
+                if (document.querySelector('.active').classList.contains("project")) { ///Make selector default to currently active project tab
+                    document.querySelector('#projectName').value = document.querySelector('.active').firstElementChild.lastElementChild.innerText;
+                }
                 document.querySelector('.create-task').classList.remove('hidden'); //Show create button
                 document.querySelector('.confirm-edit').classList.add('hidden'); //Hide confirm edit button
                 document.querySelector(".task-form").firstElementChild.innerText = "New Task";
@@ -65,7 +74,7 @@ const ui = (() => {
         if (document.querySelector('.editing')) document.querySelector('.editing').classList.remove("editing");
     }
 
-    const addTask = (tasks, i, parent) => {
+    function addTask(tasks, i, parent) {
         const newTask = document.createElement('div');
         newTask.classList.add("task");
         newTask.id = "task-" + i;
@@ -90,6 +99,10 @@ const ui = (() => {
         const newGrid = document.createElement('div');
         newGrid.classList.add("grid");
         newTaskLine.appendChild(newGrid);
+
+        const newDate = document.createElement('p');
+        newDate.innerText = tasks[i].dueDate;
+        newGrid.appendChild(newDate);
 
         const newExpandFlex = document.createElement('div');
         newExpandFlex.classList.add("flex");
@@ -183,17 +196,21 @@ const ui = (() => {
         newDueDate.innerText = tasks[i].dueDate;
         newDueDateDiv.appendChild(newDueDate);
     }
-    const markTask = (tasks, i) => {
+    function markTask(tasks, i) {
         if (tasks[i].isImportant) { //Star important tasks
             document.querySelector(`#task-${i} lord-icon.star`).classList.add("hidden");
             document.querySelector(`#task-${i} span.star`).classList.remove("hidden");
         }
-        if (tasks[i].isFinished) task.toggleFinish(document.querySelector(`#task-${i} .finish-icon`)); //Mark finished tasks
+        if (tasks[i].isCompleted) task.toggleFinish(document.querySelector(`#task-${i} .finish-icon`)); //Mark finished tasks
+    }
+    const displayTask = (tasks, i) => {
+        addTask(tasks, i, document.querySelector('.tasks'));
+        markTask(tasks, i);
     }
 
     const addProject = (projects, i, parent, isForm) => {
         const newProject = document.createElement('div');
-        newProject.classList.add("project", "category", "flex");
+        isForm ? newProject.classList.add("project", "category", "flex") : newProject.classList.add("nav-category", "project", "category", "flex");
         newProject.dataset.index = i;
         parent.appendChild(newProject);
 
@@ -204,15 +221,18 @@ const ui = (() => {
         newSpan.classList.add("material-symbols-outlined");
         isForm ? newSpan.innerText = "drag_indicator" : newSpan.innerText = "checklist";
         newFlex.appendChild(newSpan);
-        // const newTitle = document.createElement('input');
-        // newTitle.disabled = true;
-        // newTitle.value = projects[i].title;
         const newTitle = document.createElement('span');
         newTitle.innerText = projects[i].title;
         newFlex.appendChild(newTitle);
 
-        if (isForm) { //Project editor form's additional icons
-            const newIconsFlex = document.createElement('div');
+        if (isForm) {
+            const projectSelector = document.querySelector('#projectName');
+            const newOption = document.createElement('option');
+            newOption.value = projects[i].title;
+            newOption.innerText = projects[i].title;
+            projectSelector.appendChild(newOption);
+
+            const newIconsFlex = document.createElement('div'); //Project editor form's additional icons
             newIconsFlex.classList.add("flex");
             newProject.appendChild(newIconsFlex);
 
@@ -237,7 +257,7 @@ const ui = (() => {
             newIconsFlex.appendChild(newTrashIcon);
         }
     }
-    return { setTheme, getTheme, toggleSidebar, toggleForm, closeForm, addTask, markTask, addProject };
+    return { setTheme, getTheme, toggleSidebar, switchCategories, displayTask, toggleForm, closeForm, addProject };
 })();
 
 export { ui };
