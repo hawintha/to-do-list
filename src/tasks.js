@@ -19,17 +19,26 @@ const task = (() => {
             this.isDeleted = isDeleted;
         }
     }
-    tasks.push(new Task("Add dark mode", "Switch toggle on upper right corner", "Project 1", "2022-10-20", false, true));
-    tasks.push(new Task("Change font", "Find better fonts on Google Fonts", "Project 1", "2022-10-22", false, false));
-    tasks.push(new Task("Allow tasks to be categorized into projects", "", "Project 1", "2022-10-31", true, true));
-    tasks.push(new Task("Allow tasks to be categorized by date", "", "Project 1", "2022-11-30", true, true));
-    tasks.push(new Task("Display due dates on each task", "Hide due date when screen is narrow", "Project 1", "2022-12-12", false, true));
-    tasks.push(new Task("Add Overdue category", "In nav between This Month & Important", "Project 1", "2022-12-21", true, true));
-    tasks.push(new Task("Organize tasks by day of the week", "Format as Sunday - Dec. 25, 2022", "Project 1", "2022-12-22", false, false));
-    tasks.push(new Task("Allow the order of projects to be rearranged", "", "Project 1", "2022-12-24", false, false));
-    tasks.push(new Task("Save data via localStorage", "", "Project 1", "2023-01-01", true, false));
-    tasks.push(new Task("Add tasks for other projects", "Tic Tac Toe, Pixel Painter", "Project 2", "2024-02-24", false, false));
+    tasks.push(new Task("Add dark mode", "Switch toggle on upper right corner", "Project 1", date.findNextDay(-10), false, true));
+    tasks.push(new Task("Change font", "Find better fonts on Google Fonts", "Project 1", date.findNextDay(-1), false, false));
+    tasks.push(new Task("Allow tasks to be categorized into projects", "", "Project 1", date.findNextDay(0), true, true));
+    tasks.push(new Task("Allow tasks to be categorized by date", "", "Project 1", date.findNextDay(0), true, true));
+    tasks.push(new Task("Display due dates on each task", "Hide due date when screen is narrow", "Project 1", date.findNextDay(1), false, true));
+    tasks.push(new Task("Add Overdue category", "In nav between This Month & Important", "Project 1", date.findNextDay(3), true, true));
+    tasks.push(new Task("Organize tasks by day of the week", "Format as Sunday - Dec. 25, 2022", "Project 1", date.findNextDay(15), false, false));
+    tasks.push(new Task("Allow the order of projects to be rearranged", "", "Project 1", date.findNextDay(29), false, false));
+    tasks.push(new Task("Save data via localStorage", "", "Project 2", date.findNextDay(30), true, true));
+    tasks.push(new Task("Add tasks for other projects", "Tic Tac Toe, Pixel Painter", "Project 3", date.findNextDay(50), false, false));
+    const save = () => { //Save array to local storage
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+    }
     const load = () => {//Load tasks from array to DOM
+        if (!localStorage.getItem('tasks')) { //If first time on page (no storage yet)
+            save(); //Save default example tasks
+        } else {
+            tasks = JSON.parse(localStorage.getItem('tasks')); //save updated tasks
+        }
         for (let i = 0; i < tasks.length; i++) {
             if (!tasks[i].isDeleted) ui.displayTask(tasks, i)
         }
@@ -86,6 +95,7 @@ const task = (() => {
             circle.nextElementSibling.classList.remove("finished");
             if (taskID) tasks[taskID.substring(5)].isCompleted = false;
         }
+        save();
     }
     const toggleStar = (star, taskID) => {
         if (star.tagName === "LORD-ICON") { //If unfilled star
@@ -95,15 +105,18 @@ const task = (() => {
             star.previousElementSibling.classList.toggle('hidden');
             tasks[taskID.substring(5)].isImportant = false;
         }
+        save();
     }
 
     const create = () => {
         tasks.push(new Task(titleInput.value, descInput.value, projectInput.value, dueDateInput.value, isImportant.checked)); //Add to array
+        save();
         document.querySelector('.task-form').reset();
         filter(document.querySelector('.active'));
     }
     const remove = (task) => {
         tasks[task.id.substring(5)].isDeleted = true; //Update array
+        save();
         task.remove()// Remove from UI
     }
     const prepareEdit = (task) => { //Fill edit form with task's values
@@ -128,17 +141,23 @@ const task = (() => {
         editingTask.description = descInput.value;
         editingTask.project = projectInput.value;
         editingTask.dueDate = dueDateInput.value;
+        save();
         updateDetails();
     }
     const updateProject = (oldName, newName) => {
         for (let i = 0; i < tasks.length; i++) {
             if (tasks[i].project === oldName) {
-                document.querySelector(`#task-${i} .detail-project`).lastElementChild.innerText = newName; //Edit project name in details
+                if (document.querySelector(`#task-${i} .detail-project`)) { //If task exists in the project
+                    document.querySelector(`#task-${i} .detail-project`).lastElementChild.innerText = newName; //Edit project name in details
+                }
                 tasks[i].project = newName; //Edit project name in array
+                save();
             }
         }
-        document.querySelector(`[value="${oldName}"]`).innerText = newName; //Update project selector option
-        document.querySelector(`[value="${oldName}"]`).setAttribute('value', newName);
+        if (newName !== "None") { //If updating name AKA if not deleting a project
+            document.querySelector(`[value="${oldName}"]`).innerText = newName; //Update project selector option
+            document.querySelector(`[value="${oldName}"]`).setAttribute('value', newName);
+        }
     }
     return { load, filter, toggleFinish, toggleStar, create, remove, prepareEdit, edit, updateProject };
 })();

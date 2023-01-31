@@ -14,6 +14,12 @@ function listen() {
     addTaskBtn.addEventListener('click', () => {
         ui.toggleForm("task-creator");
     })
+
+    document.querySelector('.task-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        task.create();
+        ui.closeForm();
+    })
     const createTaskBtn = document.querySelector('.create-task');
     createTaskBtn.addEventListener('click', () => {
         task.create();
@@ -28,6 +34,10 @@ function listen() {
     const projectSettings = document.querySelector('.project-settings');
     projectSettings.addEventListener('click', () => {
         ui.toggleForm("project-editor");
+    })
+    document.querySelector('.project-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        project.create();
     })
     const addProjectBtn = document.querySelector('.add-project');
     addProjectBtn.addEventListener('click', () => {

@@ -1,4 +1,3 @@
-import { project } from './projects.js';
 import { task } from './tasks.js';
 const ui = (() => {
     const setIconTheme = (colors) => {
@@ -25,9 +24,10 @@ const ui = (() => {
     };
 
     const toggleSidebar = () => {
-        document.querySelector("body").classList.toggle("collapsed");
+        document.querySelector(".container").classList.toggle("collapsed");
     }
     const switchCategories = (category) => {
+        if (document.querySelector('.editing')) return;
         document.querySelector('.active').classList.remove("active");
         category.classList.add("active"); //Highlight clicked tab
         task.filter(category);
@@ -208,6 +208,13 @@ const ui = (() => {
         markTask(tasks, i);
     }
 
+    const addOption = (value, text) => {
+        const projectSelector = document.querySelector('#projectName');
+        const newOption = document.createElement('option');
+        newOption.value = value;
+        newOption.innerText = text;
+        projectSelector.appendChild(newOption);
+    }
     const addProject = (projects, i, parent, isForm) => {
         const newProject = document.createElement('div');
         isForm ? newProject.classList.add("project", "category", "flex") : newProject.classList.add("nav-category", "project", "category", "flex");
@@ -226,11 +233,7 @@ const ui = (() => {
         newFlex.appendChild(newTitle);
 
         if (isForm) {
-            const projectSelector = document.querySelector('#projectName');
-            const newOption = document.createElement('option');
-            newOption.value = projects[i].title;
-            newOption.innerText = projects[i].title;
-            projectSelector.appendChild(newOption);
+            addOption(projects[i].title, projects[i].title)
 
             const newIconsFlex = document.createElement('div'); //Project editor form's additional icons
             newIconsFlex.classList.add("flex");
@@ -257,7 +260,7 @@ const ui = (() => {
             newIconsFlex.appendChild(newTrashIcon);
         }
     }
-    return { setTheme, getTheme, toggleSidebar, switchCategories, displayTask, toggleForm, closeForm, addProject };
+    return { setTheme, getTheme, toggleSidebar, switchCategories, toggleForm, closeForm, displayTask, addOption, addProject };
 })();
 
 export { ui };
