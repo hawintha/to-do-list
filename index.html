@@ -14,12 +14,12 @@
 <body>
     <div class="container grid">
         <header class="flex">
-            <span class="menu-icon material-symbols-outlined">menu</span>
+            <span class="menu-icon material-symbols-outlined" title="Menu">menu</span>
             <div class="logo flex">
                 <span class="material-symbols-outlined">done_all</span>
                 <span>To-Do List</span>
             </div>
-            <input class="theme-icon" type="checkbox">
+            <input class="theme-icon" type="checkbox" title="Switch color theme">
         </header>
         <div class="content grid">
             <nav class="grid">
@@ -56,7 +56,7 @@
                 <div class="add-div flex">
                     <h2>Projects</h2>
                     <lord-icon class="project-settings" src="https://cdn.lordicon.com/hwuyodym.json" trigger="morph"
-                        colors="primary:#4FDDDE" style="width:25px; height:25px" stroke="100">
+                        colors="primary:#4FDDDE" style="width:25px; height:25px" stroke="100" title="Manage projects">
                     </lord-icon>
                 </div>
                 <div class="nav-projects">
@@ -66,7 +66,7 @@
                 <div class="taskView grid">
                     <div class="add-div flex">
                         <h1>All Tasks</h1>
-                        <span class="add-task add-icon material-symbols-outlined">add_circle</span>
+                        <span class="add-task add-icon material-symbols-outlined" title="Create new task">add_circle</span>
                     </div>
                     <div class="tasks">
                     </div>
@@ -108,11 +108,11 @@
                     </div>
                 </form>
                 <form class="project-form grid minimized">
-                    <span class="cancel material-symbols-outlined">close</span>
+                    <span class="cancel material-symbols-outlined" title="Close">close</span>
                     <h2>Manage Projects</h2>
                     <div class="flex">
                         <input type="text" name="newProject" id="newProject" placeholder="New Project">
-                        <label for="newProject" class="add-project add-icon material-symbols-outlined">add</label>
+                        <label for="newProject" class="add-project add-icon material-symbols-outlined" title="Add project">add</label>
                         <button class="confirm-edit save-project hidden" type="button">Save</button>
                     </div>
                     <div class="projects"></div>

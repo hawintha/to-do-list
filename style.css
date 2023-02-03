@@ -50,11 +50,6 @@
     grid-template-rows: 3.5rem 1fr 2rem;
 }
 
-.collapsed {
-    grid: 1fr / 0 1fr;
-
-}
-
 .grid {
     display: grid;
 }
@@ -137,6 +132,10 @@ header {
     transition: 0.5s;
 }
 
+.collapsed {
+    grid-template-columns: 0 1fr;
+}
+
 nav {
     grid-template-rows: 21rem 3rem 26rem;
     overflow-y: auto;
@@ -182,7 +181,6 @@ section {
 }
 
 .taskView {
-    transition: 0.3s;
     overflow: hidden;
 }
 
