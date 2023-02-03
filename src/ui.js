@@ -24,7 +24,7 @@ const ui = (() => {
     };
 
     const toggleSidebar = () => {
-        document.querySelector(".container").classList.toggle("collapsed");
+        document.querySelector(".content").classList.toggle("collapsed");
     }
     const switchCategories = (category) => {
         if (document.querySelector('.editing')) return;
